@@ -43,15 +43,9 @@
             right: 0px;
             top: 5px;
             z-index: 1;
-            display: none;
             z-index: 10;
         }
         
-            #IframeContent div.Helper:hover div.actions
-            {
-                display: block;
-            }
-
         #IframeContent div.actions a {
             border: 1px solid #DDD;
             border-radius: 3px;
@@ -101,7 +95,6 @@
             `;
             content.innerHTML = `
                 <div onmousedown="return SCRIBBLE.lib.Library.Drag(event,this);" onmouseover="SCRIBBLE.lib.Library.MouseOverAction(this);">
-                    
                     <div class="Content">
                         ${embedContent}
                     </div>

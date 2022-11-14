@@ -1,31 +1,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Sample Page</title>
-    <script type="text/javascript" src="http://cdn.scribblelive.com/modules/sidebarsdk/sidebarsdk.js"></script>
+    <title>Marvel API</title>
+    <script type="text/javascript" src="https://cdn.scribblelive.com/modules/sidebarsdk/sidebarsdk.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://cdn.scribblelive.com/js/handlebars-1.0.0.beta.6.js"></script>
     <style type="text/css">
-        
-        body 
+
+        body
         {
-            margin: 0;    
+            margin: 0;
         }
-        
-        #IframeContent ul 
+
+        #IframeContent ul
         {
            list-style-type:none;
-           padding-left:0px; 
+           padding-left:0px;
            margin: 0;
         }
-        
+
         #IframeContent li
         {
             padding: 0 0 15px;
         }
-        
-        #IframeContent li:hover 
+
+        #IframeContent li:hover
         {
-            background-color: #FFF;    
+            background-color: #FFF;
         }
-        
+
         #IframeContent img,
         #IframeContent iframe,
         #IframeContent embed,
@@ -33,26 +35,26 @@
         {
             max-width:230px;
         }
-        
-        #IframeContent div.Helper 
+
+        #IframeContent div.Helper
         {
-            position: relative; 
-            padding: 28px 0 0 0;   
+            position: relative;
+            padding: 28px 0 0 0;
             margin: 0px 8px;
             width: 230px;
         }
-        
-        #IframeContent div.Helper .Content 
+
+        #IframeContent div.Helper .Content
         {
             width: 210px;
             float: none;
             color: #333;
             font-size: 11px;
             font-family: helvetica, arial, sans-serif;
-            cursor: default;    
+            cursor: default;
         }
-        
-        #IframeContent div.Helper .Meta 
+
+        #IframeContent div.Helper .Meta
         {
             clear: none;
             color: #BBBBBB;
@@ -60,26 +62,26 @@
             font-size: 11px;
             font-style: normal;
             margin-top: 5px;
-            padding: 0 10px 0 0;    
+            padding: 0 10px 0 0;
             font-family: Helvetica,Arial,sans-serif;
         }
-        
-            #IframeContent div.Helper .Meta em 
+
+            #IframeContent div.Helper .Meta em
             {
-                font-style: normal;    
+                font-style: normal;
             }
-        
-        #IframeContent div.Helper div.Caption 
+
+        #IframeContent div.Helper div.Caption
         {
             font-family: helvetica,arial,sans-serif;
             font-size: 12px;
-            margin: 10px 0 0;   
-            width: 190px; 
+            margin: 10px 0 0;
+            width: 190px;
             color: #333333;
             padding: 5px;
         }
-        
-            
+
+
         #IframeContent div.actions {
             list-style: none outside none;
             margin: 0;
@@ -91,7 +93,7 @@
             display: none;
             z-index: 10;
         }
-        
+
             #IframeContent div.Helper:hover div.actions
             {
                 display: block;
@@ -119,60 +121,164 @@
             background: linear-gradient(to bottom,  #eeeeee 1%,#dddddd 100%); /* W3C */
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
         }
-        
+
         #IframeContent div.actions a:hover
         {
             color: #4D4D4D;
         }
+
+
+        input.SocialSearch {
+            z-index: 30002;
+            position: relative;
+            width: 200px;
+            margin: 10px 5px 5px 7px;
+            padding-right: 40px;
+            border: 1px solid #ccc;
+            box-shadow: none;
+            border-radius: 3px;
+            outline: none;
+        }
+        .facebook-show-input {
+            display: inline;
+        }
+
+        input {
+            background: none repeat scroll 0 0 #FFF;
+            border: 1px solid #CCC;
+            border-radius: 3px 3px 3px 3px;
+            box-shadow: none;
+            color: #333;
+            font-size: 13px;
+            margin-bottom: 20px;
+            padding: 5px;
+        }
+
+        input.SocialSearchButton {
+            z-index: 30002;
+            position: relative;
+            width: 32px;
+            height: 25px;
+            margin: 11px 0 0 -42px;
+            padding: 0;
+            background: #FFF url(https://cdn.scribblelive.com/modules/socialsidebar/images/SocialSearchIcons.png) -385px 3px no-repeat;
+            border-radius: 0;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+            text-indent: -99999px;
+            filter: none;
+            border: 0;
+            font-size: 11px;
+            font-family: helvetica,arial,sans-serif;
+            color: #FFF;
+            text-shadow: none;
+            text-transform: none;
+            vertical-align: top;
+            cursor: pointer;
+        }
+
+        .SocialSidebarTitle {
+            color: #212121;
+            font-size: 14px;
+            font-family: Helvetica,Arial,sans-serif;
+            margin: 9px 1px 0 9px;
+            padding: 0;
+            font-weight: bold;
+        }
     </style>
+    <script type="text/x-handlebars-template" id="imagepost">
+        <li>
+            <div onmousedown="return SCRIBBLE.lib.Library.Drag(event,this);" onmouseover="SCRIBBLE.lib.Library.MouseOverAction(this);" class="Helper">
+                <img src="{{image}}"/>
+                <div class="Caption"><strong>{{name}}</strong> {{description}}</div>
+                <span class="Meta">
+                    <em class="ByLine">by {{copyright}}</em>
+                </span>
+            </div>
+        </li>
+    </script>
+    <script type="text/x-handlebars-template" id="textpost">
+        <li>
+            <div onmousedown="return SCRIBBLE.lib.Library.Drag(event,this);" onmouseover="SCRIBBLE.lib.Library.MouseOverAction(this);" class="Helper">
+                <div class="Content"><strong>{{name}}</strong> {{description}}</div>
+                <span class="Meta">
+                    <em class="ByLine">by {{copyright}}</em>
+                </span>
+            </div>
+        </li>
+    </script>
+
+    <script type="text/javascript">
+        var API_KEY = 'YOUR_API_KEY_HERE';
+        var imagePostSource = $.trim( $( '#imagepost' ).html() );
+        var imagePost = Handlebars.compile(imagePostSource);
+        var textPostSource = $.trim( $( '#textpost' ).html() );
+        var textPost = Handlebars.compile(textPostSource);
+
+        function search() {
+            var CharSearch = $('#charsearch').val();
+            $.ajax({
+                type: 'GET',
+                datatype: 'jsonp',
+                url: "https://gateway.marvel.com/v1/public/characters",
+                data: {nameStartsWith:CharSearch, apikey:API_KEY},
+                success: function (data, textStatus, XMLHttpRequest) {
+                    console.log(data);
+                    if (data.data.count > 0) {
+                        var IFrameContent = $("#IframeContent");
+                        var copyright = data.copyright;
+                        var attributionHTML = $('<a href="http://marvel.com">MARVEL</a>').html();
+                        var UL = $("<ul></ul>");
+                        for ( character in data.data.results ) {
+                            var result = data.data.results[character];
+                            var description = (result.description) ? ' - ' + result.description : '';
+                            var name = result.name;
+                            var date = result.modified;
+                            var thumbnail = result.thumbnail.path + "." + result.thumbnail.extension;
+
+                            var content;
+                            if ( thumbnail.indexOf("image_not_available") == -1 ) {
+                                content = $(imagePost({ name: name, description:description, copyright: copyright, image: thumbnail }));
+                            } else {
+                                content = $(textPost({ name: name, description:description, copyright: copyright }));
+                            }
+                            UL.append(content);
+                        }
+                        IFrameContent.html(UL);
+                    }
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("error");
+                }
+            });
+        }
+
+        $(document).ready(function(){
+
+            $('.SocialSearch').on('keypress', function (e) {
+                var key = e.keyCode || e.which;
+                if (key == 13 || key == 10) {
+                    search();
+                }
+            });
+        });
+    </script>
+
 </head>
 <body>
+    <div class="socialsearch-container search-marvel active" data-sidebarid="1">
+        <div class="SocialSidebarTitle">Search Marvel Characters</div>
+
+        <div class="marvel-search-wrap">
+            <input type="text" class="SocialSearch facebook-show-input" size="20" placeholder="Character" id="charsearch">
+            <input type="button" value="Search" title="Search" class="Button SocialSearchButton facebook-show-input" onclick="search()">
+        </div>
+
+
+    </div>
     <div id="IframeContent">
-        <ul>
-            <li>
-                <div onmousedown="return SCRIBBLE.lib.Library.Drag(event,this);" onmouseover="SCRIBBLE.lib.Library.MouseOverAction(this);" class="Helper">
-                    <iframe width="230" scrolling="no" height="114" frameborder="0" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" allowtransparency="true" src="http://vds.rightster.com/v/01z0xt1ux2qxrx?target=iframe&amp;color2=0x006CC9&amp;color3=0xFFFFFF&amp;showiconarticle=0&amp;autoplay=0" id="videoframe"></iframe>
-                    <div class="Caption">itn video</div>
-				    <span class="Meta">
-					    <em class="ByLine">by 123 video</em>
-					    <span class="Source"> itn </span>
-					    <span class="Date">Feb 16, 2013</span>
-				    </span>
-			    </div>
-            </li>
-            <li>
-                <div onmousedown="return SCRIBBLE.lib.Library.Drag(event,this);" onmouseover="SCRIBBLE.lib.Library.MouseOverAction(this);" class="Helper">
-                    <img src="http://i2.cdn.turner.com/cnn/dam/assets/130311172703-01-conclave-monday-horizontal-gallery.jpg"/>
-                    <div class="Caption">caption</div>
-				    <span class="Meta">
-					    <em class="ByLine">by Andrey</em>
-                        <span class="Source"> CNN </span>
-					    <span class="Date">Feb 16, 2013</span>
-				    </span>
-			    </div>
-            </li>
-            <li>
-                <div onmousedown="return SCRIBBLE.lib.Library.Drag(event,this);" onmouseover="SCRIBBLE.lib.Library.MouseOverAction(this);" class="Helper">
-                    <iframe width="230" height="114" src="http://www.youtube.com/embed/C_hqVkix6Xo" frameborder="0" allowfullscreen></iframe>
-                    <div class="Caption">youtube video</div>
-				    <span class="Meta">
-					    <em class="ByLine">by 1320video</em>
-					    <span class="Source"> YouTube </span>
-					    <span class="Date">Feb 16, 2013</span>
-				    </span>
-			    </div>
-            </li>
-            <li>
-                <div onmousedown="return SCRIBBLE.lib.Library.Drag(event,this);" onmouseover="SCRIBBLE.lib.Library.MouseOverAction(this);" class="Helper">
-                    <div class="Content">WASHINGTON - Demand for long-lasting manufactured goods surged in February, suggesting factory activity continued to expand at a moderate pace, even though a gauge of planned business spending slipped.</div>
-                    <span class="Meta">
-					    <em class="ByLine">by Reuters Author</em>
-					    <span class="Source"> Reuters </span>
-					    <span class="Date">Mar 16, 2013</span>
-				    </span>
-                </div>
-            </li>
-        </ul>
+
     </div>
 </body>
 </html>
